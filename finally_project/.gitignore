@@ -1,0 +1,24 @@
+# Файлы операционной системы
+.DS_Store
+Thumbs.db
+.ehthumbs.db
+
+# Файлы IDE и редакторов
+.vscode/
+.idea/
+.eclipse/
+
+# Файлы сборки и компиляции
+node_modules/
+build/
+dist/
+target/
+venv/
+__pycache__/
+
+# Лог-файлы и базы данных
+*.log
+*.db
+
+# Конфигурационные файлы
+.env

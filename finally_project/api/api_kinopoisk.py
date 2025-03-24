@@ -1,7 +1,12 @@
 import requests
 import os
+from database.models import User
 
-def find_movie_name(keyword: str):
+RATING = dict()
+BUDGET = dict()
+GENRE = dict()
+
+def find_movie_name(keyword: str, message):
     url = "https://api.kinopoisk.dev/v1.4/movie/search"
     headers = {
         "accept": "application/json",
@@ -9,7 +14,8 @@ def find_movie_name(keyword: str):
     }
     params = {
         "query": keyword,
-        "limit": 10
+        "limit": User.get(User.user_id == message.from_user.id).limit,
+        "page": 1,
     }
     
     response = requests.get(url, headers=headers, params=params)
@@ -22,15 +28,15 @@ def find_movie_name(keyword: str):
         print(f"Ошибка {response.status_code}")
         return None
 
-def find_movie_rating(keyword: str):
+def find_movie_rating(keyword: str, message):
     url = "https://api.kinopoisk.dev/v1.4/movie"
     headers = {
         "accept": "application/json",
         "X-API-KEY": os.environ.get("KINOPOISK_API_KEY")  
     }
     params = {
-        "rating.kp": f"{keyword}-10",
-        "limit": 10,
+        "rating.kp": f"{keyword}",
+        "limit": User.get(User.user_id == message.from_user.id).limit
     }
     response = requests.get(url, headers=headers, params=params)
     response.encoding = "utf-8"
@@ -62,8 +68,7 @@ def all_genres():
         print(f"Ошибка {response.status_code}")
         return None
 
-def find_movie_by_genre(genre):
-    import requests
+def find_movie_by_genre(message):
 
     url = "https://api.kinopoisk.dev/v1.4/movie"
 
@@ -72,8 +77,11 @@ def find_movie_by_genre(genre):
         "X-API-KEY": "C2930HW-5JXMS89-HW29QP4-0C6TRAS"
     }
     params = {
-        "genres.name": genre,
-        "limit": 10
+        "genres.name": GENRE[message.from_user.id],
+        "rating.kp": RATING[message.from_user.id],
+        "budget.value": BUDGET[message.from_user.id],
+        "limit": User.get(User.user_id == message.from_user.id).limit,
+        "page": 4,
     }
 
     response = requests.get(url, headers=headers, params=params)

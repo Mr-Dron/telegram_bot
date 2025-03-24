@@ -14,6 +14,7 @@ class User(BaseModel):
     first_name = CharField(null=True)
     last_name = CharField(null=True)
     admin = BooleanField(default=False)
+    limit = IntegerField(default=10)
 
 class MovieCash(BaseModel):
     user = ForeignKeyField(User, backref="movies")

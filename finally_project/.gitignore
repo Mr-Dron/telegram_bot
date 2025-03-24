@@ -13,7 +13,7 @@ node_modules/
 build/
 dist/
 target/
-../venv/
+venv/
 __pycache__/
 
 # Лог-файлы и базы данных

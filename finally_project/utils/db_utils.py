@@ -1,6 +1,7 @@
 from database.models import MovieCash, User
 from datetime import datetime
 from peewee import IntegrityError
+
  
 def save_movie_cash(message, result: list) -> None:
     for res in result:
@@ -49,6 +50,7 @@ def new_user(message):
                 first_name=first_name,
                 last_name=last_name,
                 admin = True,
+                limit = 10,
             )
         else:
             User.create(
@@ -57,6 +59,7 @@ def new_user(message):
                 first_name=first_name,
                 last_name=last_name,
                 admin = False,
+                limit = 10,
             )
         return True
     except IntegrityError:

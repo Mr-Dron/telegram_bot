@@ -9,3 +9,7 @@ class UserState(StatesGroup):
     main = State()
     search_by_genre = State()
     favorite_movie = State()
+    new_limit = State()
+    add_additional_filters = State()
+    add_additional_rating = State()
+    add_additional_budget = State()

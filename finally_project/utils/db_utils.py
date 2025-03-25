@@ -1,8 +1,17 @@
+from telebot.types import Message
 from database.models import MovieCash, User
 from datetime import datetime
 from peewee import IntegrityError
+
  
-def save_movie_cash(message, result: list) -> None:
+def save_movie_cash(message: Message, result: list) -> None:
+    """Принимает список результатов поиска, прогоняет каждый фильм, выбирает нужные поля, заполняет
+    новый словарь и сохраняет результат с нужными полями в БД
+
+    Args:
+        message (Message): Обьект сообщения, хранящее данные о пользователе
+        result (list): Список результатов
+    """
     for res in result:
         find_key = ["id", "name", "description", "rating", "year", "genres", "ageRating", "poster"]
         result_dict = {"id": None,
@@ -35,7 +44,15 @@ def save_movie_cash(message, result: list) -> None:
             
         movie.save()
 
-def new_user(message):
+def new_user(message: Message) -> bool:
+    """Пробует создать нового пользователя, если в БД нету, то создает нового и возвращает True(пользователь был создан)
+
+    Args:
+        message (Message): Обьект сообщения, хранящий данные о пользователе
+
+    Returns:
+        bool: Статус создания нового пользователя. True пользователь создан, False пользователь уже существует
+    """
     user_id = message.from_user.id 
     username = message.from_user.username
     first_name = message.from_user.first_name
@@ -49,6 +66,7 @@ def new_user(message):
                 first_name=first_name,
                 last_name=last_name,
                 admin = True,
+                limit = 10,
             )
         else:
             User.create(
@@ -57,6 +75,7 @@ def new_user(message):
                 first_name=first_name,
                 last_name=last_name,
                 admin = False,
+                limit = 10,
             )
         return True
     except IntegrityError:

@@ -1,4 +1,5 @@
 from loader import bot
+from telebot.types import CallbackQuery
 
 from database.models import MovieCash
 from utils.search_check import search_check
@@ -11,11 +12,11 @@ from config_data.config import CURRENT_INDEX, SEARCH_RESULTS
                              "previous_movie_search",
                              "add_to_favorites",
                              "next_to_search_output"])
-def main_output_search(call):
+def main_output_search(call: CallbackQuery):
     """Вывод результата поиска по-одному фильму с клавиатурой
 
     Args:
-        call: Нажатие на кнопки клавиатуры с определенным callback
+        call (CallbackQuery): Обьект нажатия на клавиатуру, хранящий данные пользователя
     """
 
     results = SEARCH_RESULTS[call.from_user.id]
@@ -37,7 +38,17 @@ def main_output_search(call):
     CURRENT_INDEX[call.from_user.id] = correct_kb(call, results, CURRENT_INDEX[call.from_user.id])
 
 
-def correct_kb(call, results, current_index):
+def correct_kb(call: CallbackQuery, results: list, current_index: int) -> int:
+    """Обновление текущего индекса, в зависимости от нажатия кнопки
+
+    Args:
+        call (CallbackQuery): Обьект нажатия на кнопку, хранящий данные пользователя
+        results (list): Список результатов поиска
+        current_index (int): Текущий индекс
+
+    Returns:
+        int: обнавленный индекс
+    """
     data = call.data    
     
     if data == "previous_movie_search":
@@ -51,16 +62,24 @@ def correct_kb(call, results, current_index):
     
     return current_index
 
-def output_search(message, result, current_index, length_result):
+def output_search(call: CallbackQuery, result: dict, current_index: int, length_result: int) -> None:
+    """Вывод фильм под текущим индексом в списке результатов поиска, реализованный через Пагинацию
+
+    Args:
+        call (CallbackQuery): Обьект нажатия на кнопку, хранящий данные пользователя
+        result (dict): Информаци о фильме под текущим индексом
+        current_index (int): Текущий индекс
+        length_result (int): Длинна списка результатов поиска
+    """
         
     res = search_check(result) 
     if ("poster" in result) and (result["poster"]["previewUrl"] != ""):
         try:
-            bot.send_photo(message.from_user.id, photo=result["poster"]["previewUrl"], caption=res, 
+            bot.send_photo(call.from_user.id, photo=result["poster"]["previewUrl"], caption=res, 
                            parse_mode="MarkdownV2", reply_markup=output_search_kb(current_index, length_result))
         except Exception as exc:
-            bot.send_message(message.from_user.id, res, parse_mode="MarkdownV2",
+            bot.send_message(call.from_user.id, res, parse_mode="MarkdownV2",
                          reply_markup=output_search_kb(current_index, length_result))
     else:       
-        bot.send_message(message.from_user.id, res, parse_mode="MarkdownV2",
+        bot.send_message(call.from_user.id, res, parse_mode="MarkdownV2",
                          reply_markup=output_search_kb(current_index, length_result))

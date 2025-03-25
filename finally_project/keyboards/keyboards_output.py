@@ -1,7 +1,12 @@
-from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # Вывод результата поиска
-def go_to_output_search():
+def go_to_output_search() -> InlineKeyboardMarkup:
+    """Создает inline-клавиатуру для продолжения поиска или выхода в меню
+    
+    Returns:
+        InlineKeyboardMarkup
+    """
     further_button = InlineKeyboardButton(text="Далее", callback_data="next_to_search_output")
     exit_output_button = InlineKeyboardButton(text="Выйти из поиска", callback_data="exit_output")
     
@@ -10,7 +15,16 @@ def go_to_output_search():
     
     return keyboard
 
-def output_search_kb(current_index, length):
+def output_search_kb(current_index: int, length: int) -> InlineKeyboardMarkup:
+    """Создает inline-клавиатуру для реализации вывода через пагинацию
+
+    Args:
+        current_index (int): Текущий индекс фильма
+        length (int): Длинна списка результатов поиска фильмов
+
+    Returns:
+        InlineKeyboardMarkup
+    """
     exit_output_button = InlineKeyboardButton(text="Выйти из поиска", callback_data="exit_to_menu")
     next_movie_button = InlineKeyboardButton(text="Вперёд --->", callback_data="next_movie_search")
     previous_movie_button = InlineKeyboardButton(text="<--- Назад", callback_data="previous_movie_search")
@@ -38,7 +52,12 @@ def output_search_kb(current_index, length):
     return keyboard
 
 # Вывод истории поиска
-def go_to_output_hisoty():
+def go_to_output_hisoty() -> InlineKeyboardMarkup:
+    """Создает inline-клавиатуру для продолжения поиска или выхода в меню
+    
+    Returns:
+        InlineKeyboardMarkup
+    """
     further_button = InlineKeyboardButton(text="Далее", callback_data="next_to_history_output")
     exit_output_button = InlineKeyboardButton(text="Выйти из истории", callback_data="exit_output")
     
@@ -47,7 +66,16 @@ def go_to_output_hisoty():
     
     return keyboard
 
-def output_history_kb(current_index, length):
+def output_history_kb(current_index: int, length: int) -> InlineKeyboardMarkup:
+    """Создает inline-клавиатуру для реализации вывода через пагинацию
+
+    Args:
+        current_index (int): Текущий индекс фильма
+        length (int): Длинна списка результатов поиска фильмов
+
+    Returns:
+        InlineKeyboardMarkup
+    """
     exit_output_button = InlineKeyboardButton(text="Выйти из истории", callback_data="exit_to_menu")
     next_movie_button = InlineKeyboardButton(text="Вперёд --->", callback_data="next_movie_history")
     previous_movie_button = InlineKeyboardButton(text="<--- Назад", callback_data="previous_movie_history")
@@ -75,7 +103,12 @@ def output_history_kb(current_index, length):
     return keyboard
 
 # вывод списка избранного
-def go_to_output_favorite():
+def go_to_output_favorite() -> InlineKeyboardMarkup:
+    """Создает inline-клавиатуру для продолжения поиска или выхода в меню
+    
+    Returns:
+        InlineKeyboardMarkup
+    """
     further_button = InlineKeyboardButton(text="Далее", callback_data="next_to_favorite_output")
     exit_output_button = InlineKeyboardButton(text="Выйти из списка желаемого", callback_data="exit_output")
     
@@ -84,7 +117,16 @@ def go_to_output_favorite():
     
     return keyboard
 
-def output_favorite_kb(current_index, length):
+def output_favorite_kb(current_index: int, length: int) -> InlineKeyboardMarkup:
+    """Создает inline-клавиатуру для реализации вывода через пагинацию
+
+    Args:
+        current_index (int): Текущий индекс фильма
+        length (int): Длинна списка результатов поиска фильмов
+
+    Returns:
+        InlineKeyboardMarkup
+    """
     exit_output_button = InlineKeyboardButton(text="Выйти из списка желаемого", callback_data="exit_to_menu")
     next_movie_button = InlineKeyboardButton(text="Вперёд --->", callback_data="next_movie_favorite")
     previous_movie_button = InlineKeyboardButton(text="<--- Назад", callback_data="previous_movie_favorite")

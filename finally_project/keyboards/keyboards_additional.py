@@ -1,6 +1,11 @@
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-def add_additional_or_continue_output():
+def add_additional_or_continue_output() -> InlineKeyboardMarkup:
+    """Создает inline-клавиатуру для возможности добваления дополниельных параметров поиска или продолжением поиска
+
+    Returns:
+        InlineKeyboardMarkup
+    """
     additional_filter_button = InlineKeyboardButton(text="Добавить дополнительные фильтры", callback_data="additional_filter")
     continue_output_button = InlineKeyboardButton(text="Продолжить поиск", callback_data="continue_output")
     
@@ -11,6 +16,11 @@ def add_additional_or_continue_output():
     return keyboard
     
 def additional_filter_kb():
+    """Создает inline-клавиатуру с выбором дополнительных параметров или продолжением поиска
+
+    Returns:
+        InlineKeyboardMarkup
+    """
     filter_rating_button = InlineKeyboardButton(text="Выбрать рейтинг", callback_data="filter_rating")
     filter_budget_button = InlineKeyboardButton(text="Выбрать бюджет", callback_data="filter_budget")
     continue_without_anything_button = InlineKeyboardButton(text="Продолжить поиск", callback_data="continue_output")

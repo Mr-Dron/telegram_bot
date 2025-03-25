@@ -1,6 +1,6 @@
 from loader import bot
 from states.bot_state import UserState
-from telebot.types import Message
+from telebot.types import Message, CallbackQuery
 
 from api.api_kinopoisk import find_movie_name
 from utils.db_utils import save_movie_cash
@@ -12,7 +12,13 @@ from config_data.config import CURRENT_INDEX, SEARCH_RESULTS
  
 @bot.callback_query_handler(func=lambda call: 
     call.data == "search_name") 
-def start_search(call: Message):
+def start_search(call: CallbackQuery) -> None:
+    """Ловит нажатие на кнопку с callback = search_name. Устанавливает новое состояние на поиск по названию.
+    Запрашивает у пользователя название фильма 
+
+    Args:
+        call (CallbackQuery): Обьект нажатия, хранящий данные пользователя 
+    """
     bot.delete_message(call.message.chat.id, call.message.message_id)
     bot.set_state(call.from_user.id, UserState.search_by_name)
     bot.send_message(call.from_user.id, "\t__*Поиск по названию*__\n"
@@ -22,6 +28,13 @@ def start_search(call: Message):
 
 @bot.message_handler(state=UserState.search_by_name)
 def progress_search(message: Message):
+    """Ловит состояние на поиск по названию. Получает название от пользователя, отправляет запрос API Kinopoisk
+    Получает ответ, отпраялет его на проверку наличия необходимых полей. 
+    Проверяет наличие результата и отправляет его на вывод 
+
+    Args:
+        message (Message): Обьект сообщения, хранящий данные пользователя 
+    """
     preliminary_result = find_movie_name(message.text, message)
     
     result = check_search_result_start(preliminary_result)

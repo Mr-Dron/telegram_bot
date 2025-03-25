@@ -6,6 +6,15 @@ from keyboards.keyboards_menu import main_keyboard, main_keyboard_admin
 
 @bot.message_handler(commands=["start"])
 def bot_start(message: Message) -> None:
+    """Обработчик команды start. Проверяет существует ли данный пользователь.
+    Если пользователь новый, создает его в БД. Если уже существует, пропускает этап создания
+    
+    отправляет стартовое сообщение, в зависимости от того новый пользователь или уже есть в базе, 
+    а так же является ли администратором
+
+    Args:
+        message (Message): Сообщение телеграм, хранящее информацию о пользователе
+    """
     
     user = User.get_or_none(User.user_id == message.from_user.id)
     

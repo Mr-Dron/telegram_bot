@@ -1,7 +1,12 @@
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-def help_keyboad():
-    main_button = InlineKeyboardButton(text="Меню", callback_data="main")
+def help_keyboad() -> InlineKeyboardMarkup:
+    """Создает inline-клавиатуру для возвращения в меню или сообщения об ошибке
+
+    Returns:
+        InlineKeyboardMarkup
+    """
+    main_button = InlineKeyboardButton(text="Меню", callback_data="menu")
     error_button = InlineKeyboardButton(text="Нашел(а) ошибку", callback_data="error")
     
     keyboard = InlineKeyboardMarkup()

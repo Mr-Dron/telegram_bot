@@ -1,4 +1,5 @@
 from loader import bot
+from telebot.types import CallbackQuery
 
 from keyboards.keyboards_menu import main_keyboard
 from config_data.config import CURRENT_INDEX, SEARCH_RESULTS
@@ -7,7 +8,12 @@ from config_data.config import CURRENT_INDEX, SEARCH_RESULTS
     call.data in ["exit_output",
                   "menu",
                   "exit_to_menu"])
-def main_menu_handler(call):
+def main_menu_handler(call: CallbackQuery) -> None:
+    """Обрабатывает нажатие на кнопки выхода в меню 
+
+    Args:
+        call (CallbackQuery): Обьект нажатия на кнопку, содаржащий информацию о пользователе
+    """
     CURRENT_INDEX[call.from_user.id] = 0
     try:
         SEARCH_RESULTS[call.from_user.id].clear()

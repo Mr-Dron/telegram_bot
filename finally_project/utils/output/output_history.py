@@ -1,4 +1,5 @@
 from loader import bot
+from telebot.types import CallbackQuery
 
 from database.models import MovieCash
 from keyboards.keyboards_output import output_history_kb, go_to_output_hisoty
@@ -11,11 +12,11 @@ from config_data.config import CURRENT_INDEX, SEARCH_RESULTS
                              "previous_movie_history",
                              "add_to_favorites_history",
                              "next_to_history_output"])
-def main_output_history(call):
+def main_output_history(call: CallbackQuery):
     """Вывод результата поиска по-одному фильму с клавиатурой
 
     Args:
-        call: Нажатие на кнопки клавиатуры с определенным callback
+        call (CallbackQuery): Обьект нажатия на кнопку, хранящий данные пользователя
     """
 
     results = SEARCH_RESULTS[call.from_user.id]
@@ -37,7 +38,17 @@ def main_output_history(call):
     CURRENT_INDEX[call.from_user.id] = correct_kb(call, results, CURRENT_INDEX[call.from_user.id])
 
 
-def correct_kb(call, results, current_index):
+def correct_kb(call: CallbackQuery, results: list, current_index: int) -> int:
+    """Коррекция текущего символа, в зависимости от нажатия кнопки 
+
+    Args:
+        call (CallbackQuery): Обьект нажатия кнопки, хранящий данные пользователя 
+        results (list): Список результатов поиска
+        current_index (int): Текущий символ
+
+    Returns:
+        int: Обнавленный индекс
+    """
     data = call.data    
     
     if data == "previous_movie_history":
@@ -51,13 +62,21 @@ def correct_kb(call, results, current_index):
     
     return current_index
 
-def output_search(message, result, current_index, length_result):
+def output_search(call: CallbackQuery, result: dict, current_index: int, length_result: int) -> None:
+    """Вывод фильма под текущим индексом в списке результатов поиска
+
+    Args:
+        call (CallbackQuery): Обект нажатия на кнопка, хранящий данные пользователя
+        result (dict): Информация о фильме под текущим индексом
+        current_index (int): Текущий индекс
+        length_result (int): Длинна списка с результатом поиска
+    """
         
     res = history_check(result)
     
     try:
-        bot.send_photo(message.from_user.id, photo=result.movie_poster, 
+        bot.send_photo(call.from_user.id, photo=result.movie_poster, 
                    caption=res, parse_mode="MarkdownV2", reply_markup=output_history_kb(current_index, length_result))
     except Exception as exc:
-        bot.send_message(message.from_user.id, res, parse_mode="MarkdownV2", reply_markup=output_history_kb(current_index, length_result))
+        bot.send_message(call.from_user.id, res, parse_mode="MarkdownV2", reply_markup=output_history_kb(current_index, length_result))
 

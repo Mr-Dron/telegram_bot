@@ -1,6 +1,11 @@
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-def main_keyboard():
+def main_keyboard() -> InlineKeyboardMarkup:
+    """Создает inline-клавиатуру пользователя для выбора действия. Поиск по фильтрам, история поиска, список желаемого
+
+    Returns:
+        InlineKeyboardMarkup
+    """
     name_button = InlineKeyboardButton(text="Поиск по названию", callback_data="search_name")
     rating_button = InlineKeyboardButton(text="Поиск по рейтингу", callback_data="search_rating")
     history_button = InlineKeyboardButton(text="История поиска", callback_data="history")
@@ -16,7 +21,13 @@ def main_keyboard():
     
     return keyboard  
 
-def main_keyboard_admin():
+def main_keyboard_admin() -> InlineKeyboardMarkup:
+    """Создает inline-клавиатуру Администратора для выбора действия. Поиск по фильтрам, 
+    история поиска, список желаемого, клавиатура администратора(еще не настроена)
+    
+    Returns:
+        InlineKeyboardMarkup
+    """
     name_button = InlineKeyboardButton(text="Поиск по названию", callback_data="search_name")
     rating_button = InlineKeyboardButton(text="Поиск по рейтингу", callback_data="search_rating")
     history_button = InlineKeyboardButton(text="История поиска", callback_data="history")
@@ -34,19 +45,19 @@ def main_keyboard_admin():
     
     return keyboard  
 
-def admin_keyboard():
-    delete_db_button = InlineKeyboardButton(text="Очистить историю за дату", callback_data="delete_db")
-    my_data_button = InlineKeyboardButton(text="Мои данные", callback_data="my_data")
-    all_users_button = InlineKeyboardButton(text="Все пользователи", callback_data="all_users")
-    all_history_button = InlineKeyboardButton(text="Вся история поиска", callback_data="all_history")
-    any_user_history_button = InlineKeyboardButton(text="История поиска пользователя", callback_data="any_user_history")
-    user_buttons_button = InlineKeyboardButton(text="кнопки пользователя", callback_data="user_buttons")
+# def admin_keyboard():
+#     delete_db_button = InlineKeyboardButton(text="Очистить историю за дату", callback_data="delete_db")
+#     my_data_button = InlineKeyboardButton(text="Мои данные", callback_data="my_data")
+#     all_users_button = InlineKeyboardButton(text="Все пользователи", callback_data="all_users")
+#     all_history_button = InlineKeyboardButton(text="Вся история поиска", callback_data="all_history")
+#     any_user_history_button = InlineKeyboardButton(text="История поиска пользователя", callback_data="any_user_history")
+#     user_buttons_button = InlineKeyboardButton(text="кнопки пользователя", callback_data="user_buttons")
     
-    keyboard = InlineKeyboardMarkup()
-    keyboard.add(delete_db_button, my_data_button, all_users_button, 
-                 all_history_button, any_user_history_button, user_buttons_button)
+#     keyboard = InlineKeyboardMarkup()
+#     keyboard.add(delete_db_button, my_data_button, all_users_button, 
+#                  all_history_button, any_user_history_button, user_buttons_button)
     
-    return keyboard  
+#     return keyboard  
 
 def go_to_menu_kb():
     go_to_menu_button = InlineKeyboardButton(text="Вернуться в меню", callback_data="menu")

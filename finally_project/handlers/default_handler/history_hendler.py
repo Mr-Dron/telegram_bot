@@ -2,7 +2,7 @@ from loader import bot
 
 from database.models import MovieCash
 from states.bot_state import UserState
-from telebot.types import Message
+from telebot.types import Message, CallbackQuery
 
 from utils.history_date import find_date_serach
 from keyboards.keyboards_menu import go_to_menu_kb
@@ -14,7 +14,13 @@ from config_data.config import CURRENT_INDEX, SEARCH_RESULTS
 
 @bot.callback_query_handler(func=lambda call:
     call.data == "history")
-def start_history_hendler(call: Message):
+def start_history_hendler(call: CallbackQuery) -> None:
+    """Обрабатывает нажитие на кнопку с callback = history.
+    Запрашивает дату, за которую нужна история и переводит в состояние истории 
+
+    Args:
+        call (CallbackQuery): Обьект нажатия на кнопку, хранящий данные пользователя
+    """
     history_date = find_date_serach(call)
     if history_date == []:
         bot.set_state(call.from_user.id, UserState.main)
@@ -29,7 +35,13 @@ def start_history_hendler(call: Message):
         
 
 @bot.message_handler(state=UserState.history)
-def history_progress(message: Message):
+def history_progress(message: Message) -> None:
+    """Ловит состояние history, начинает поиск фильмов в БД по заданной дате. 
+    Собирает в один список и отправляет на вывод
+
+    Args:
+        message (Message): Обьект сообщения, хранящий данные пользователя
+    """
     
     history = MovieCash.select()
     movies = [mov for mov in history if str(mov.date_add) == message.text and message.from_user.id == mov.user.user_id]

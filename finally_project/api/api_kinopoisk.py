@@ -1,12 +1,23 @@
 import requests
 import os
+
 from database.models import User
+from telebot.types import Message
 
 RATING = dict()
 BUDGET = dict()
 GENRE = dict()
 
-def find_movie_name(keyword: str, message):
+def find_movie_name(keyword: str, message: Message) -> list:
+    """Поиск фильмов по ключевому слову в названии через API Kinopoisk
+
+    Args:
+        keyword (str): Ключевое слово или название
+        message (Message): Обьект сообщения телеграм, содержащий информацию о пользователе
+
+    Returns:
+        list: Список с результатом поиска
+    """
     url = "https://api.kinopoisk.dev/v1.4/movie/search"
     headers = {
         "accept": "application/json",
@@ -28,7 +39,16 @@ def find_movie_name(keyword: str, message):
         print(f"Ошибка {response.status_code}")
         return None
 
-def find_movie_rating(keyword: str, message):
+def find_movie_rating(keyword: str, message: Message) -> list:
+    """Поиск фильма по рейтингу через API Kinopoiska
+
+    Args:
+        keyword (str): рейтинг или диапозон рейтинга
+        message (Message): Объект сообщения телеграм, содержащий информацию о пользователе
+
+    Returns:
+        list: результат поиска
+    """
     url = "https://api.kinopoisk.dev/v1.4/movie"
     headers = {
         "accept": "application/json",
@@ -49,7 +69,12 @@ def find_movie_rating(keyword: str, message):
         return None
 
 
-def all_genres():
+def all_genres() -> list:
+    """Поиск всех доступных жанров фильма через API Kinopoisk
+
+    Returns:
+        list: Список всех жанров 
+    """
     url = "https://api.kinopoisk.dev/v1/movie/possible-values-by-field?field=genres.name"
 
     headers = {
@@ -68,7 +93,16 @@ def all_genres():
         print(f"Ошибка {response.status_code}")
         return None
 
-def find_movie_by_genre(message):
+def find_movie_by_genre(message: Message) -> list:
+    """Поиск фильмов по жанру как основной параметр, рейтинг и бюджет 
+    необязательные параметры и могут принимать значение None 
+
+    Args:
+        message (Message): Объект сообщения телеграм, содержащий информацию о пользователе
+
+    Returns:
+        list: Список результатов поиска
+    """
 
     url = "https://api.kinopoisk.dev/v1.4/movie"
 

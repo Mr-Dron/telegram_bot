@@ -1,6 +1,15 @@
+from telebot.types import Message
 from database.models import MovieCash
 
-def find_date_serach(message):
+def find_date_serach(message: Message) -> list:
+    """Находит все различные даты истории поиска
+
+    Args:
+        message (Message): Обьект сообщения, хранящий данные пользователя
+
+    Returns:
+        list: Список всех различных дат
+    """
     movie_cash = MovieCash.select()
     date_cash = list()
     

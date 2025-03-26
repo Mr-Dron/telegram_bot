@@ -9,11 +9,14 @@ else:
     
 API_KEY = os.getenv("API_KEY")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-DB_PATH = os.path.join(os.getcwd(), "database", os.getenv("DB_PATH"))
+DB_PATH = os.path.join(os.getcwd(), "finally_project", "database", os.getenv("DB_PATH"))
+SEARCH_RESULTS = dict()
+CURRENT_INDEX = dict()
 
 DEFAULT_COMMANDS = (
     ("start", "запустить бота"),
     ("help", "вывести справку"),
+    ("limit", "изменить лимит на поиск")
 )
 
 ADMIN_COMMANDS = (

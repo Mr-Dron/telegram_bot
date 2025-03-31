@@ -24,7 +24,7 @@
 ### 1. Клонируйте репозиторий:
 
 ```bash
-git clone https://gitlab.skillbox.ru/sergei_rusakovich/python_basic_diploma.git
+git clone https://github.com/Mr-Dron/telegram_bot
 ```
 
 ### 2. Установите зависимости:

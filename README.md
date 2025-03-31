@@ -1,5 +1,5 @@
 
-# Python Basic Diploma — Telegram Bot
+# Python — Telegram Bot
 
 ## 📜 Описание
 
